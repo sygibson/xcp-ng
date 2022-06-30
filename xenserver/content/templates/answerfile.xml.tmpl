@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+    <installation srtype="ext">
+        <primary-disk>sda</primary-disk>
+        <guest-disk>sdb</guest-disk>
+        <keymap>us</keymap>
+        <root-password>RocketSkates</root-password>
+        <source type="url">{{.Machine.Url}}</source>
+        <post-install-script type="url">
+          {{.Machine.Url}}/post-install-script
+        </post-install-script>
+        <admin-interface name="eth0" proto="dhcp" />
+        <timezone>America/Pacific</timezone>
+    </installation>
+

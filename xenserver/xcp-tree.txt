@@ -1,0 +1,43 @@
+.
+├── boot
+│   ├── alt
+│   │   └── vmlinuz
+│   ├── efiboot.img
+│   ├── gcdx64.efi
+│   ├── grubx64.efi
+│   ├── isolinux
+│   │   ├── boot.cat
+│   │   ├── isolinux.bin
+│   │   ├── isolinux.cfg
+│   │   ├── mboot.c32
+│   │   ├── memtest
+│   │   ├── menu.c32
+│   │   └── splash.lss
+│   ├── pxelinux
+│   │   ├── mboot.c32
+│   │   ├── menu.c32
+│   │   └── pxelinux.0
+│   ├── vmlinuz
+│   └── xen.gz
+├── client_install
+│   └── xapi-xe-1.249.19-1.x86_64.rpm
+├── EFI
+│   └── xenserver
+│       ├── grub.cfg
+│       ├── grub-usb.cfg
+│       └── grubx64.efi
+├── EULA
+├── install.img
+├── LICENSES
+
+├── Packages
+│   ├── ...
+
+├── repodata
+│   ├── ...
+
+├── RPM-GPG-KEY-CH-8
+├── RPM-GPG-KEY-CH-8-LCM
+└── RPM-GPG-KEY-Platform-V1
+
+9 directories, 556 files

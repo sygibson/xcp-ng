@@ -1,0 +1,217 @@
+meta:
+  Author: RackN
+  CodeSource: none
+  Color: green
+  Copyright: RackN
+  Description: XenServer XCP-NG Install
+  DisplayName: XenServer XCP-NG
+  DocUrl: none
+  Documentation: ""
+  Icon: creative commons
+  License: APLv2
+  Name: xenserver-xcp-ng
+  Order: "1000"
+  Prerequisites: ""
+  RequiredFeatures: sane-exit-codes, workflows, sprig
+  Source: RackN
+  Tags: base,community
+  Type: dynamic
+  Version: v22.06.30-203052
+sections:
+  bootenvs:
+    xcp-ng-8.2.1-install:
+      Available: false
+      BootParams: ""
+      Bundle: ""
+      Description: XenServer (XCP-NG) BootEnv
+      Documentation: |
+        This BootEnv installs Xenserver (XCP-NG).
+      Endpoint: ""
+      Errors: []
+      Initrds: []
+      Kernel: ""
+      Loaders: {}
+      Meta:
+        color: olive
+        feature-flags: change-stage-v2
+        icon: linux
+        title: Digital Rebar Community Content
+      Name: xcp-ng-8.2.1-install
+      OS:
+        Codename: ""
+        Family: xenserver
+        IsoFile: ""
+        IsoSha256: ""
+        IsoUrl: ""
+        Name: xcp-ng-8.2.1
+        SupportedArchitectures:
+          amd64:
+            BootParams: /boot/xen.gz dom0_max_vcpus=2 dom0_mem=2048M,max:2048M com1=115200,8n1
+              console=com1,vga --- {{.Env.InstallUrl}}/boot/vmlinuz xencons=hvc console=hvc0
+              console=tty0 root=sda answerfile={{.Machine.Url}}/answerfile install
+              --- {{.Env.InstallUrl}}/install.img {{.Param "kernel-options"}} {{.Param
+              "kernel-console"}}
+            Initrds:
+            - boot/xen.gz
+            IsoFile: xcp-ng-8.2.1.iso
+            IsoUrl: https://mirrors.xcp-ng.org/isos/8.2/xcp-ng-8.2.1.iso
+            Kernel: boot/vmlinuz
+            Loader: ""
+            Sha256: 93853aba9a71900fe43fd5a0082e2af6ab89acd14168f058ffc89d311690a412
+        Version: 8.2.1
+      OnlyUnknown: false
+      OptionalParams:
+      - operating-system-disk
+      - provisioner-default-user
+      - provisioner-default-fullname
+      - provisioner-default-uid
+      - provisioner-default-password-hash
+      - kernel-console
+      - kernel-options
+      - proxy-servers
+      - dns-domain
+      - local-repo
+      - proxy-servers
+      - ntp-servers
+      - select-kickseed
+      ReadOnly: false
+      RequiredParams: null
+      Templates:
+      - Contents: ""
+        ID: kexec.tmpl
+        Link: ""
+        Meta: null
+        Name: kexec
+        Path: '{{.Machine.Path}}/kexec'
+      - Contents: ""
+        ID: default-pxelinux.tmpl
+        Link: ""
+        Meta: null
+        Name: pxelinux
+        Path: pxelinux.cfg/{{.Machine.HexAddress}}
+      - Contents: ""
+        ID: default-ipxe.tmpl
+        Link: ""
+        Meta: null
+        Name: ipxe
+        Path: '{{.Machine.Address}}.ipxe'
+      - Contents: ""
+        ID: default-pxelinux.tmpl
+        Link: ""
+        Meta: null
+        Name: pxelinux-mac
+        Path: pxelinux.cfg/{{.Machine.MacAddr "pxelinux"}}
+      - Contents: ""
+        ID: default-ipxe.tmpl
+        Link: ""
+        Meta: null
+        Name: ipxe-mac
+        Path: '{{.Machine.MacAddr "ipxe"}}.ipxe'
+      - Contents: ""
+        ID: answerfile.xml.tmpl
+        Link: ""
+        Meta: null
+        Name: answerfile.xml
+        Path: '{{.Machine.Path}}/answerfile'
+      - Contents: ""
+        ID: post-install-script.tmpl
+        Link: ""
+        Meta: null
+        Name: post-install-script
+        Path: '{{.Machine.Path}}/post-install-script'
+      Validated: false
+  stages:
+    xcp-ng:
+      Available: false
+      BootEnv: xcp-ng-8.2.1-install
+      Bundle: ""
+      Description: Install XenServer XCP-NG
+      Documentation: ""
+      Endpoint: ""
+      Errors: []
+      Meta:
+        color: yellow
+        icon: download
+        title: Digital Rebar Community Content
+        type: os
+      Name: xcp-ng
+      OptionalParams: []
+      Params: {}
+      Partial: false
+      Profiles: []
+      ReadOnly: false
+      Reboot: false
+      RequiredParams: []
+      RunnerWait: false
+      Tasks:
+      - set-hostname
+      - ssh-access
+      Templates: []
+      Validated: false
+  templates:
+    answerfile.xml.tmpl:
+      Available: false
+      Bundle: ""
+      Contents: |+
+        <?xml version="1.0"?>
+            <installation srtype="ext">
+                <primary-disk>sda</primary-disk>
+                <guest-disk>sdb</guest-disk>
+                <keymap>us</keymap>
+                <root-password>RocketSkates</root-password>
+                <source type="url">{{.Machine.Url}}</source>
+                <post-install-script type="url">
+                  {{.Machine.Url}}/post-install-script
+                </post-install-script>
+                <admin-interface name="eth0" proto="dhcp" />
+                <timezone>America/Pacific</timezone>
+            </installation>
+
+      Description: ""
+      Endpoint: ""
+      Errors: []
+      ID: answerfile.xml.tmpl
+      Meta: {}
+      ReadOnly: false
+      Validated: false
+    post-install-script.tmpl:
+      Available: false
+      Bundle: ""
+      Contents: |
+        exec > /root/post-install.log 2>&1
+        set -x
+        export PS4='${BASH_SOURCE}@${LINENO}(${FUNCNAME[0]}): '
+
+        {{template "reset-workflow.tmpl" .}}
+        {{template "runner.tmpl" .}}
+
+        sync
+      Description: ""
+      Endpoint: ""
+      Errors: []
+      ID: post-install-script.tmpl
+      Meta: {}
+      ReadOnly: false
+      Validated: false
+  workflows:
+    xcp-ng:
+      Available: false
+      Bundle: ""
+      Description: Install XenServer XCP-NG
+      Documentation: |
+        Installs the XCP-NG hypervisor.
+      Endpoint: ""
+      Errors: []
+      Meta:
+        color: purple
+        copyright: RackN
+        icon: boxes
+        type: linux
+      Name: xcp-ng
+      ReadOnly: false
+      Stages:
+      - xcp-ng
+      - drp-agent
+      - finish-install
+      - complete
+      Validated: false
