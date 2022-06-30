@@ -1,0 +1,16 @@
+---
+Name: "xcp-ng"
+Description: "Install XenServer XCP-NG"
+Documentation: |
+  Installs the XCP-NG hypervisor.
+
+Meta:
+  type: "linux"
+  color: "purple"
+  icon: "boxes"
+  copyright: "RackN"
+Stages:
+  - "xcp-ng"
+  - "drp-agent"
+  - "finish-install"
+  - "complete"

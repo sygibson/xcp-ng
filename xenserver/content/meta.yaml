@@ -1,0 +1,15 @@
+Author: RackN
+CodeSource: none
+Color: green
+Copyright: RackN
+Description: XenServer XCP-NG Install
+DisplayName: XenServer XCP-NG
+DocUrl: none
+Icon: creative commons
+License: APLv2
+Name: xenserver-xcp-ng
+Order: 1000
+Overwritable: false
+RequiredFeatures: sane-exit-codes, workflows, sprig
+Source: RackN
+Tags: base,community

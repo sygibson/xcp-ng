@@ -1,0 +1,12 @@
+---
+Name: "xcp-ng"
+Description: "Install XenServer XCP-NG"
+BootEnv: "xcp-ng-8.2.1-install"
+Tasks:
+  - "set-hostname"
+  - "ssh-access"
+Meta:
+  type: "os"
+  icon: "download"
+  color: "yellow"
+  title: "Digital Rebar Community Content"
